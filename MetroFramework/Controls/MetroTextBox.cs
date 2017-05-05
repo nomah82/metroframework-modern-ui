@@ -453,6 +453,12 @@ namespace MetroFramework.Controls
             set { baseTextBox.SelectionLength = value; }
         }
 
+        public int TextLength
+        {
+            get { return baseTextBox.TextLength; }
+        }
+
+
         [DefaultValue(true)]
         public new bool TabStop
         {
@@ -471,7 +477,7 @@ namespace MetroFramework.Controls
             get { return baseTextBox.ScrollBars; }
             set { baseTextBox.ScrollBars = value; }
         }
-
+		
         [DefaultValue(AutoCompleteMode.None)]
         public AutoCompleteMode AutoCompleteMode
         {
@@ -689,6 +695,8 @@ namespace MetroFramework.Controls
             }
 
             Color borderColor = MetroPaint.BorderColor.ComboBox.Normal(Theme);
+            if (!Enabled)
+                borderColor = MetroPaint.BorderColor.ComboBox.Disabled(Theme);
 
             if (useStyleColors)
                 borderColor = MetroPaint.GetStyleColor(Style);

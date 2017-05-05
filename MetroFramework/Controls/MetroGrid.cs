@@ -64,7 +64,7 @@ namespace MetroFramework.Controls
                 }
                 if (StyleManager == null && metroStyle == MetroColorStyle.Default)
                 {
-                    return MetroColorStyle.Blue;
+                    return MetroColorStyle.Custom;
                 }
 
                 return metroStyle;

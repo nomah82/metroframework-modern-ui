@@ -63,7 +63,7 @@ namespace MetroFramework.Controls
                 }
                 if (StyleManager == null && metroStyle == MetroColorStyle.Default)
                 {
-                    return MetroColorStyle.Blue;
+                    return MetroColorStyle.Custom;
                 }
 
                 return metroStyle;
@@ -167,14 +167,20 @@ namespace MetroFramework.Controls
         private class MetroCTXRenderer : ToolStripProfessionalRenderer
         {
             MetroFramework.MetroThemeStyle _theme;
+            MetroFramework.MetroColorStyle _style;
+
             public MetroCTXRenderer(MetroFramework.MetroThemeStyle Theme, MetroColorStyle Style) : base(new contextcolors(Theme, Style)) 
             {
                 _theme = Theme;
+                _style = Style;
             }
 
             protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
             {
-                e.TextColor = MetroPaint.ForeColor.Button.Normal(_theme);
+                if (e.Item.Selected)
+                    e.TextColor = MetroImage.ContrastColor(MetroPaint.GetStyleColor(_style));
+                else e.TextColor = MetroImage.ContrastColor(MetroPaint.BackColor.Form(_theme));
+
                 base.OnRenderItemText(e);
             }
         }
@@ -182,7 +188,7 @@ namespace MetroFramework.Controls
         private class contextcolors : ProfessionalColorTable
         {
             MetroThemeStyle _theme = MetroThemeStyle.Light;
-            MetroColorStyle _style = MetroColorStyle.Blue;
+            MetroColorStyle _style = MetroColorStyle.Custom;
 
             public contextcolors(MetroFramework.MetroThemeStyle Theme, MetroColorStyle Style)
             {

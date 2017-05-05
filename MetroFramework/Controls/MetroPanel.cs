@@ -145,6 +145,22 @@ namespace MetroFramework.Controls
             set { useCustomBackColor = value; }
         }
 
+        private Color customBackColorLight = Color.White;        
+        [Category(MetroDefaults.PropertyCategory.Appearance)]
+        public Color CustomBackColorLight
+        {
+            get { return customBackColorLight; }
+            set { customBackColorLight = value; }
+        }
+
+        private Color customBackColorBlack = Color.FromArgb(255, 17, 17, 17);
+        [Category(MetroDefaults.PropertyCategory.Appearance)]
+        public Color CustomBackColorBlack
+        {
+            get { return customBackColorBlack; }
+            set { customBackColorBlack = value; }
+        }
+
         private bool useCustomForeColor = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
@@ -311,6 +327,12 @@ namespace MetroFramework.Controls
                 if (!useCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
+                }
+                else
+                {
+                    if (Theme == MetroThemeStyle.Light)
+                        backColor = customBackColorLight;
+                    else backColor = customBackColorBlack;
                 }
 
                 if (backColor.A == 255 && BackgroundImage == null)
