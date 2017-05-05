@@ -60,6 +60,10 @@ namespace MetroFramework.Components
             }
         }
 
+        public delegate void ThemeStyleChange();
+
+        public event ThemeStyleChange OnThemeStyleChange;
+
         private MetroThemeStyle metroTheme = MetroDefaults.Theme;
         [DefaultValue(MetroDefaults.Theme)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
@@ -79,6 +83,7 @@ namespace MetroFramework.Components
                 {
                     Update();
                 }
+
             }
         }
 
@@ -170,6 +175,7 @@ namespace MetroFramework.Components
                         ApplyTheme((MetroContextMenu)obj);
                     }
                 }
+
             }
 
             return clonedManager;
@@ -206,6 +212,8 @@ namespace MetroFramework.Components
 
         public void Update()
         {
+            if (OnThemeStyleChange != null)
+                OnThemeStyleChange();
             if (owner != null)
             {
                 UpdateControl(owner);
@@ -227,10 +235,15 @@ namespace MetroFramework.Components
                 {
                     ApplyTheme((MetroContextMenu)obj);
                 }
+
+                if (obj.GetType() == typeof(MetroMenuStrip))
+                {
+                    ApplyTheme((MetroContextMenu)obj);
+                }
             }
         }
 
-        private void UpdateControl(Control ctrl)
+        public void UpdateControl(Control ctrl)
         {
             if (ctrl == null)
             {

@@ -77,7 +77,7 @@ namespace MetroFramework.Forms
     {
         #region Interface
 
-        private MetroColorStyle metroStyle = MetroColorStyle.Blue;
+        private MetroColorStyle metroStyle = MetroColorStyle.Custom;
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroColorStyle Style
         {
@@ -422,6 +422,17 @@ namespace MetroFramework.Forms
                         new Rectangle(new Point(ClientRectangle.Width-6,ClientRectangle.Height-14), resizeHandleSize)
                     });
                 }
+            }
+
+            DrawTabBottomBorder(e.Graphics);
+        }
+
+        private void DrawTabBottomBorder(Graphics graphics)
+        {
+            using (Brush bgBrush = new SolidBrush(MetroPaint.BorderColor.TabControl.Normal(Theme)))
+            {
+                Rectangle borderRectangle = new Rectangle (Padding.Left, Bottom - (Padding.Bottom), ClientRectangle.Width-Padding.Right- Padding.Left, 3);
+                graphics.FillRectangle(bgBrush, borderRectangle);
             }
         }
 

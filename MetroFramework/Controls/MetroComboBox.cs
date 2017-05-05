@@ -227,8 +227,8 @@ namespace MetroFramework.Controls
             }
         }
 
-        private MetroComboBoxSize metroComboBoxSize = MetroComboBoxSize.Medium;
-        [DefaultValue(MetroComboBoxSize.Medium)]
+        private MetroComboBoxSize metroComboBoxSize = MetroComboBoxSize.Small;
+        [DefaultValue(MetroComboBoxSize.Small)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroComboBoxSize FontSize
         {

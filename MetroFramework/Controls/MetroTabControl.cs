@@ -230,7 +230,11 @@ namespace MetroFramework.Controls
         public MetroTabControlSize FontSize
         {
             get { return metroLabelSize; }
-            set { metroLabelSize = value; }
+            set
+            {
+                metroLabelSize = value;
+                Font = MetroFonts.TabControl(metroLabelSize, metroLabelWeight);
+            }
         }
 
         private MetroTabControlWeight metroLabelWeight = MetroTabControlWeight.Light;
@@ -239,7 +243,20 @@ namespace MetroFramework.Controls
         public MetroTabControlWeight FontWeight
         {
             get { return metroLabelWeight; }
-            set { metroLabelWeight = value; }
+            set
+            {
+                metroLabelWeight = value;
+                Font = MetroFonts.TabControl(metroLabelSize, metroLabelWeight);
+            }
+        }
+
+        private bool useStyleLabels = false;
+        [DefaultValue(false)]
+        [Category(MetroDefaults.PropertyCategory.Appearance)]
+        public bool UseStyleLabels
+        {
+            get { return useStyleLabels; }
+            set { useStyleLabels = value; }
         }
 
         private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
@@ -366,9 +383,11 @@ namespace MetroFramework.Controls
                 return;
             }
 
-            DrawTabBottomBorder(SelectedIndex, e.Graphics);
+            if (!UseStyleLabels)
+                DrawTabBottomBorder(SelectedIndex, e.Graphics);
             DrawTab(SelectedIndex, e.Graphics);
-            DrawTabSelected(SelectedIndex, e.Graphics);
+            if (!UseStyleLabels)
+                DrawTabSelected(SelectedIndex, e.Graphics);
 
             OnCustomPaintForeground(new MetroPaintEventArgs(Color.Empty, Color.Empty, e.Graphics));
         }
@@ -431,7 +450,13 @@ namespace MetroFramework.Controls
                 }
                 else
                 {
-                    foreColor = !useStyleColors ? MetroPaint.ForeColor.TabControl.Normal(Theme) : MetroPaint.GetStyleColor(Style);
+                    if (useStyleLabels)
+                    {
+                        if (index == SelectedIndex)
+                            foreColor = MetroPaint.GetStyleColor(Style);
+                        else foreColor = MetroPaint.ForeColor.IconButton.Normal(Theme);
+                    }
+                    else foreColor = !useStyleColors ? MetroPaint.ForeColor.TabControl.Normal(Theme) : MetroPaint.GetStyleColor(Style);
                 }
             }
 
@@ -442,7 +467,7 @@ namespace MetroFramework.Controls
 
             Rectangle bgRect = tabRect;
 
-            tabRect.Width += 20;
+            tabRect.Width += 20;            
 
             using (Brush bgBrush = new SolidBrush(backColor))
             {

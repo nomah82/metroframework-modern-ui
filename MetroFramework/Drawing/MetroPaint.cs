@@ -230,7 +230,15 @@ namespace MetroFramework.Drawing
         }
 
         public sealed class BackColor
-        {
+        {           
+            public static Color MenuToolStrip(MetroThemeStyle theme)
+            {
+                if (theme == MetroThemeStyle.Dark)
+                    return Color.FromArgb(17, 17, 17);
+
+                return Color.FromArgb(255, 255, 255);
+            }
+
             public static Color Form(MetroThemeStyle theme)
             {
                 if (theme == MetroThemeStyle.Dark)
@@ -238,6 +246,56 @@ namespace MetroFramework.Drawing
 
                 return Color.FromArgb(255, 255, 255);
             }
+
+
+
+            public Bitmap ApplyLight(Bitmap bitmapImage)
+            {
+                byte A, R, G, B;
+                Color pixelColor;
+
+                for (int y = 0; y < bitmapImage.Height; y++)
+                {
+                    for (int x = 0; x < bitmapImage.Width; x++)
+                    {
+                        pixelColor = bitmapImage.GetPixel(x, y);
+
+                        A = pixelColor.A;
+                        if (pixelColor.A <= 255 && pixelColor.A >= 100)
+                        {
+                            A = 90;
+                        }
+
+                        R = (byte)(pixelColor.R);
+                        G = (byte)(pixelColor.G);
+                        B = (byte)(pixelColor.B);
+                        bitmapImage.SetPixel(x, y, Color.FromArgb((int)A, (int)R, (int)G, (int)B));
+                    }
+                }
+
+                return bitmapImage;
+            }
+
+            public sealed class Grid
+            {
+                public static Color Normal(MetroThemeStyle theme)
+                {
+                    return MetroPaint.BackColor.Form(theme);
+                }
+
+                public static Color Header(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(85, 85, 85);
+                    return Color.FromArgb(170, 170, 170);
+                }
+
+                /*public static Color Selected(MetroThemeStyle theme)
+                {
+
+                }*/
+            }
+
 
             public sealed class Button
             {
@@ -364,7 +422,7 @@ namespace MetroFramework.Drawing
                         if (theme == MetroThemeStyle.Dark)
                             return Color.FromArgb(204, 204, 204);
 
-                        return Color.FromArgb(96, 96, 96);
+                        return Color.FromArgb(17, 17, 17);
                     }
 
                     public static Color Press(MetroThemeStyle theme)
@@ -372,7 +430,7 @@ namespace MetroFramework.Drawing
                         if (theme == MetroThemeStyle.Dark)
                             return Color.FromArgb(204, 204, 204);
 
-                        return Color.FromArgb(96, 96, 96);
+                        return Color.FromArgb(17, 17, 17);
                     }
 
                     public static Color Disabled(MetroThemeStyle theme)
@@ -461,6 +519,34 @@ namespace MetroFramework.Drawing
 
         public sealed class ForeColor
         {
+            public sealed class IconButton
+            {
+                public static Color Normal(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(130, 130, 130);
+                    return Color.FromArgb(170, 170, 170);
+                }
+
+                public static Color Hover(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(200, 200, 200);
+                    return Color.FromArgb(50, 50, 50);
+
+                }
+
+                public static Color Disable(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(80, 80, 80);
+                    return Color.FromArgb(200, 200, 200);
+                }
+
+
+
+            }
+
             public sealed class Button
             {
                 public static Color Normal(MetroThemeStyle theme)
@@ -576,6 +662,30 @@ namespace MetroFramework.Drawing
 
             public sealed class Label
             {
+                public static Color Normal(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(170, 170, 170);
+
+                    return Color.FromArgb(0, 0, 0);
+                }
+
+                public static Color Disabled(MetroThemeStyle theme)
+                {
+                    if (theme == MetroThemeStyle.Dark)
+                        return Color.FromArgb(51, 51, 51);
+
+                    return Color.FromArgb(209, 209, 209);
+                }
+            }
+
+            public sealed class MenuToolStrip
+            {
+                public static Color Hover(MetroThemeStyle theme)
+                {
+                    return Color.White;
+                }
+
                 public static Color Normal(MetroThemeStyle theme)
                 {
                     if (theme == MetroThemeStyle.Dark)
@@ -750,6 +860,9 @@ namespace MetroFramework.Drawing
                 case MetroColorStyle.Yellow:
                     return MetroColors.Yellow;
 
+                case MetroColorStyle.Custom:
+                    return MetroColors.Custom;
+
                 default:
                     return MetroColors.Blue;
             }
@@ -801,6 +914,9 @@ namespace MetroFramework.Drawing
                 case MetroColorStyle.Yellow:
                     return MetroBrushes.Yellow;
 
+                case MetroColorStyle.Custom:
+                    return MetroBrushes.Custom;
+
                 default:
                     return MetroBrushes.Blue;
             }
@@ -851,6 +967,9 @@ namespace MetroFramework.Drawing
 
                 case MetroColorStyle.Yellow:
                     return MetroPens.Yellow;
+
+                case MetroColorStyle.Custom:
+                    return MetroPens.Custom;
 
                 default:
                     return MetroPens.Blue;

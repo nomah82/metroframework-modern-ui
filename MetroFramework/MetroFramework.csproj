@@ -117,11 +117,23 @@
     <Compile Include="Controls\MetroDateTime.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\MetroDateTimeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MetroDateTimeControl.Designer.cs">
+      <DependentUpon>MetroDateTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetroFormButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MetroGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MetroGrid.designer.cs">
       <DependentUpon>MetroGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetroIconButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MetroLabel.cs">
       <SubType>Component</SubType>
@@ -132,6 +144,10 @@
     <Compile Include="Controls\MetroListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\MetroMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetroMenuStripHelper.cs" />
     <Compile Include="Controls\MetroPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -147,7 +163,9 @@
     <Compile Include="Controls\MetroScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\MetroTabControl.cs" />
+    <Compile Include="Controls\MetroTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MetroTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -230,6 +248,9 @@
     <Compile Include="Native\Taskbar.cs" />
     <Compile Include="Native\WinApi.cs" />
     <Compile Include="Native\WinCaret.cs" />
+    <Compile Include="PopupWindow.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -262,6 +283,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\MetroDateTimeControl.resx">
+      <DependentUpon>MetroDateTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MetroGrid.resx">
       <DependentUpon>MetroGrid.cs</DependentUpon>
       <SubType>Designer</SubType>

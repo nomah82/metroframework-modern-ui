@@ -215,12 +215,37 @@ namespace MetroFramework.Controls
         }
 
         private Image tileImage = null;
+        private Image tileImageDark = null;
+        private Image tileImageLight = null;
         [DefaultValue(null)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public Image TileImage
         {
             get { return tileImage; }
-            set { tileImage = value; }
+            set
+            {
+                tileImage = value;
+
+                var wmax = Width - 30;
+                var hmax = Height - 40;
+                double ratioImage = (double)tileImage.Width / (double)tileImage.Height;
+                double ratioButton = (double)wmax / (double)hmax;
+
+                if (ratioImage > ratioButton)
+                {
+                    hmax = wmax * tileImage.Height / tileImage.Width;
+                }
+                else
+                {
+                    wmax = hmax * tileImage.Width / tileImage.Height;
+                }
+               
+                Bitmap bmp = MetroImage.WhiteBlackToTransparentFore(new Bitmap(tileImage), MetroPaint.BackColor.Form(MetroThemeStyle.Dark));
+                tileImageDark=new Bitmap(MetroImage.ResizeImage(bmp, new Rectangle(0, 0, wmax, hmax)));
+
+                bmp = MetroImage.WhiteBlackToTransparentFore(new Bitmap(tileImage), MetroPaint.BackColor.Form(MetroThemeStyle.Light));
+                tileImageLight = new Bitmap(MetroImage.ResizeImage(bmp, new Rectangle(0, 0, wmax, hmax)));
+            }
         }
 
         private bool useTileImage = false;
@@ -380,51 +405,56 @@ namespace MetroFramework.Controls
             {
                 if (tileImage != null)
                 {
+                    Image bmp = null;
+                    if (this.Theme == MetroThemeStyle.Dark)
+                        bmp = tileImageDark;
+                    else bmp = tileImageLight;
+
                     Rectangle imageRectangle;
                     switch (tileImageAlign)
                     {
                         case ContentAlignment.BottomLeft:
-                            imageRectangle = new Rectangle(new Point(0, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, Height - bmp.Height), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.BottomCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - bmp.Width / 2, Height - bmp.Height), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.BottomRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - bmp.Width, Height - bmp.Height), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.MiddleLeft:
-                            imageRectangle = new Rectangle(new Point(0, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, Height / 2 - bmp.Height / 2), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.MiddleCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - bmp.Width / 2, Height / 2 - bmp.Height / 2), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.MiddleRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - bmp.Width, Height / 2 - bmp.Height / 2), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.TopLeft:
-                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.TopCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - bmp.Width / 2, 10), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         case ContentAlignment.TopRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - bmp.Width, 0), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
 
                         default:
-                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(bmp.Width, bmp.Height));
                             break;
                     }
 
-                    e.Graphics.DrawImage(TileImage, imageRectangle);
+                    e.Graphics.DrawImage(bmp, imageRectangle);
                 }
             }
 
